@@ -1,7 +1,7 @@
 #include <WiFi.h>
 #include "wifi_creds.h"
 
-#define basePin 16
+#define powerPin 16
 WiFiServer server(80);
 
 const char *ok_no_content = "HTTP/1.1 204 No Content";
@@ -12,7 +12,8 @@ bool kettleIsActive = false;
 
 void setup() {
     Serial.begin(115200);
-    pinMode(basePin, OUTPUT);
+    pinMode(powerPin, OUTPUT);
+    digitalWrite(powerPin, LOW);
 
     Serial.print("Connecting to: ");
     Serial.println(ssid);
@@ -30,14 +31,20 @@ void setup() {
     server.begin();
 }
 
+void pressPower(int timeMs) {
+    digitalWrite(powerPin, HIGH);
+    delay(timeMs);
+    digitalWrite(powerPin, LOW);
+}
+
 String handle_requests(String line, bool *kettleIsActive) {
     String returnCode = err_not_found;
     if (line == "PUT /coffee HTTP/1.1") {
-        digitalWrite(basePin, HIGH);
+        pressPower(500);
         *kettleIsActive = true;
         returnCode = ok_no_content;
     } else if (line == "PUT /stop HTTP/1.1") {
-        digitalWrite(basePin, LOW);
+        pressPower(500);
         *kettleIsActive = false;
         returnCode = ok_no_content;
     } else if (line == "GET /status HTTP/1.1") {
