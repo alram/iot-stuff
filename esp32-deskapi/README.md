@@ -23,3 +23,4 @@ Config is:
 ```
 
 6 is the amount of seconds the switch will be activated for. Adjust for your height/preference.
+You will be able to say "Hey Siri, turn on/off my desk", create a set of Siri shortcuts to change that to a custom message.
