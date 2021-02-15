@@ -124,10 +124,7 @@ void loop(){
                         client.println("Connection: close");
                         client.println();
                         if (returnCode == ok_content) {
-                            // char buff[20];
-                            // sprintf(buff, "{\"kettleStatus\": %d}", kettleIsActive);
                             client.println(deskStatus);
-                            client.println();
                         }
                         break;
                     } else {                                            // if you got a newline, then clear currentLine:
